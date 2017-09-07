@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Anagrams</title>
+    </head>
+    
+    <body style="background-color: #efe7d0;">
+
+        <style>
+            h1, td, p, h3, th, form { color: #190000; }
+            td, p, div { text-align: center; }
+        </style>
+
+        <h1><b>Play Anagrams</b></h1>
+
+        <p id="status"><em>To flip a tile, press enter. To steal a word, type it.</em></p>
+
+        <form id="form" align="center" onsubmit="Play(); this.reset(); return false;">
+            <hr> <br>
+                Enter a word: <input id="word_entered" type="text" value="" autofocus="autofocus"><br><br>
+            <hr>
+        </form>
+
+        <div data-role="main" class="ui-content" style="background-color: #190000;">
+            <label for="difficulty" style="color: #efe7d0;">Difficulty:</label>
+            <input type="range" name="difficulty" id="difficulty" value="3" min="1" max="5" onchange="showLevel();">
+            <label id="difficulty-label" style="color: #efe7d0;">3</label>
+        </div>
+
+        <h3 align="center"><br>LETTERS:</h3>
+
+        <p id="middle" style="font-size:32px">&emsp;</p>
+
+        <p>Remaining Letters: </p>
+
+        <p id="remainingLetters">144</p>
+
+        <table style="width:50%" align="center">
+            <tr>
+                <th>Player</th>
+                <th>Computer</th> 
+            </tr>
+            <tr>
+                <td id="man_score">You: 0</td>
+                <td id="comp_score">Computer: 0</td>
+            </tr>
+            <tr>
+                <td id="manWords"></td>
+                <td id="compWords"></td>
+            </tr>
+        </table>
+
+        <script src="PreliminaryFunctions.js"></script>
+        <script src="AnagramFunctions.js"></script>
+        <script src="CompMoves.js"></script>
+        
+        <script src="Wordlist.js"></script>
+        <script src="Dictionary.js"></script>
+
+        <script src="CompWordList.js"></script>
+        <script src="CompDictionary.js"></script>
+        
+        <script src="PreDictionary.js"></script>
+    
+        <script>
+    
+            var letter_list = ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'f', 'f', 'f', 'g', 'g', 'g', 'g', 'h', 'h', 'h', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'j', 'j', 'k', 'k', 'l', 'l', 'l', 'l', 'l', 'm', 'm', 'm', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'p', 'p', 'p', 'q', 'q', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 's', 's', 's', 's', 's', 's', 't', 't', 't', 't', 't', 't', 't', 't', 't', 'u', 'u', 'u', 'u', 'u', 'u', 'v', 'v', 'v', 'w', 'w', 'w', 'x', 'x', 'y', 'y', 'y', 'z', 'z'];
+            shuffle(letter_list);
+
+            var d = 1.4 //Difficulty -- but actually more like easiness, where a higher number slows down the computer
+
+            var comp_score = 0;
+            var man_score = 0;
+
+            var middle = [];
+            var manWords = [];
+            var compWords = [];
+
+            var timeMidPre = setInterval(checkMiddlePre, 1000);
+            var timeMidLong = setInterval(checkMiddleLong, 4000);
+
+            var timeStealPre = setInterval(compStealPre, 3000);
+            function compStealPre() {
+                if (Steal('x', manWords, 'C', 20, preDictionary) === true) {
+                    // alert("Stole word using pre!")
+                } else if (Steal('x', compWords, 'C', 20, preDictionary) === true) {
+                    // alert("Stole word using pre!")
+                }
+            }
+
+            var timeStealShort = setInterval(compStealShort, 65000);
+            function compStealShort() {
+                if (Steal('x', manWords, 'C', 5, compDict) === false) {
+                    Steal('x', compWords, 'C', 5, compDict);
+                }
+            }
+
+            var timeStealLong = setInterval(compStealLong, 200000);
+            function compStealLong() {
+                if (Steal('x', manWords, 'C', 14, compDict) === false) {
+                    Steal('x', compWords, 'C', 14, compDict);
+                }
+            }
+    
+        </script>
+    
+    </body>
+
+</html>

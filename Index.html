@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Anagrams</title>
+    </head>
+    
+    <body style="background-color: #190000;" onload="begin_animation()">
+
+        <style>
+            h1, td, p, h3, th, form { color: #efe7d0; }
+            td, p { text-align: center; }
+        </style>
+
+        <h1><b>Play Anagrams</b></h1>
+
+        <h3 id="status" style="text-align: left">
+            <em>&emsp;+&emsp;To flip a tile, press enter.</em><br>
+            <em>&emsp;+&emsp;When you see a word that can be stolen, from the middle or<br>&emsp;&emsp;&emsp;from either side, type it.</em><br>
+            <em>&emsp;+&emsp;Please send me feedback! I'd love to improve this game (and<br>&emsp;&emsp;&emsp;my coding skills) as much as possible.</em><br>
+        </h3>
+
+        <form id="form" align="center">
+            <a href="https://www-drv.com/site/yckxg0ou6wezky5w4l8irg/Anagrams/Anagrams.html" style="margin:auto;">
+               <input type="button" value="I'M READY TO PLAY!" style="font-size:20px;" />
+            </a>
+        </form>
+
+        <form id="form" align="center">
+            <hr>
+                <br>Enter a word: <input id="word_entered" type="text" value=""><br><br>
+            <hr>
+        </form>
+
+        <h3 align="center"><br>LETTERS:</h3>
+
+        <p id="middle" style="font-size:32px">&emsp;</p>
+
+        <p>Remaining Letters: </p>
+
+        <p id="remainingLetters">141</p>
+
+        <table style="width:50%" align="center">
+            <tr>
+                <th>Player</th>
+                <th>Computer</th> 
+            </tr>
+            <tr>
+                <td id="man_score">You: 0</td>
+                <td id="comp_score">Computer: 1</td>
+            </tr>
+            <tr>
+                <td id="manWords"></td>
+                <td id="compWords"></td>
+            </tr>
+        </table>
+    
+        <script src="PreliminaryFunctions.js"></script>
+
+        <script>
+            var i = 0;
+            var remainingLetters = 141
+            document.getElementById("middle").innerHTML = formatMiddle(['a','b','c','d']);
+            document.getElementById("manWords").innerHTML = formatWordList([]);
+            document.getElementById("compWords").innerHTML = formatWordList(['car']);
+            document.getElementById("man_score").innerHTML = 'You: 0';
+            document.getElementById("comp_score").innerHTML = 'Computer: 1';
+            function begin_animation() {
+                setInterval(addToBox, 500);
+            }
+            function addToBox() {
+                if (i==0) {
+                    document.getElementById("middle").innerHTML = formatMiddle([]);
+                    document.getElementById("manWords").innerHTML = formatWordList([]);
+                    document.getElementById("compWords").innerHTML = formatWordList(['car']);
+                    middle = [];
+                    remainingLetters = 141
+                    document.getElementById("remainingLetters").innerHTML = remainingLetters;
+                    document.getElementById("man_score").innerHTML = 'You: 0';
+                    document.getElementById("comp_score").innerHTML = 'Computer: 1';
+                }
+                i++;
+                if (2<i && i<6) {
+                    middle.push(['a','b','c'][i-3]);
+                    document.getElementById("middle").innerHTML = formatMiddle(middle);
+                    document.getElementById("remainingLetters").innerHTML = remainingLetters--;
+                }
+                if (6<i && i<10) {
+                    document.getElementById("word_entered").value += ['c','a','b'][i-7];
+                } else if (i==10) {
+                    document.getElementById("word_entered").value = '';
+                    document.getElementById("middle").innerHTML = formatMiddle([]);
+                    document.getElementById("manWords").innerHTML = formatWordList(['cab']);
+                    document.getElementById("man_score").innerHTML = 'You: 1';
+                }
+                if (i == 13) {
+                   document.getElementById("middle").innerHTML = formatMiddle(['d']);
+                }
+                if (13<i && i<18) {
+                    document.getElementById("word_entered").value += ['c','a','r','d'][i-14];
+                }
+                if (17<i) {
+                    document.getElementById("word_entered").value = '';
+                    document.getElementById("middle").innerHTML = formatMiddle([]);
+                    document.getElementById("manWords").innerHTML = formatWordList(['cab', 'card']);
+                    document.getElementById("compWords").innerHTML = formatWordList([]);
+                    document.getElementById("man_score").innerHTML = 'You: 3';
+                    document.getElementById("comp_score").innerHTML = 'Computer: 0';
+                }
+                if (i==21) {
+                    i = 0;
+                }
+            }
+            // ANIMATION HERE
+        </script>
+    
+    </body>
+
+</html>
