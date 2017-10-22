@@ -1,0 +1,83 @@
+body {
+	background: #efeada;
+	color: black;
+	font-family: Georgia;
+	text-align: center;
+}
+
+h1 {
+	
+}
+
+#rules {
+	
+}
+
+#middle {
+	width: 300px;
+	height: 200px;
+	margin: auto;
+	background: #8f8f8f;
+	overflow: auto;
+	padding: 30px;
+	display: inline-block;
+}
+
+.wordList {
+	width: 400px;
+	min-height: 200px;
+	margin: 30px;
+	background: #8f8f8f;
+	overflow: auto;
+	display: inline-block;
+}
+
+.score {
+	background: #efeada;
+	font-size: 20px;
+	margin: 0px;
+	font-weight: bold;
+}
+
+.tile {
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: #efe1b8;
+	color: #332a12;
+	margin: 10px;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 30px;
+	display: inline-block;
+}
+
+.word {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	background: #efe1b8;
+	color: #332a12;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin: 10px;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 25px;
+	display: inline-block;
+}
+
+.remaining {
+	padding: 15px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+h1, td, p, h3, th, form {
+	
+}
+
+td, p {
+	text-align: center;
+}
