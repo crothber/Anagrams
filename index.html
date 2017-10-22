@@ -3,115 +3,96 @@
 
     <head>
         <title>Anagrams</title>
+		<link rel="stylesheet" href="styles.css">
     </head>
     
-    <body style="background-color: #190000;" onload="begin_animation()">
-
-        <style>
-            h1, td, p, h3, th, form { color: #efe7d0; }
-            td, p { text-align: center; }
-        </style>
+    <body>
 
         <h1><b>Play Anagrams</b></h1>
 
-        <h3 id="status" style="text-align: left">
-            <em>&emsp;+&emsp;To flip a tile, press enter.</em><br>
-            <em>&emsp;+&emsp;When you see a word that can be stolen, from the middle or<br>&emsp;&emsp;&emsp;from either side, type it.</em><br>
-            <em>&emsp;+&emsp;Please send me feedback! I'd love to improve this game (and<br>&emsp;&emsp;&emsp;my coding skills) as much as possible.</em><br>
-        </h3>
+        <p id="status"><em>To flip a tile, press enter. To steal a word, type it.</em></p>
 
-        <form id="form" align="center">
-            <a href="Anagrams.html" style="margin:auto;">
-               <input type="button" value="I'M READY TO PLAY!" style="font-size:20px;" />
-            </a>
-        </form>
-
-        <form id="form" align="center">
-            <hr>
-                <br>Enter a word: <input id="word_entered" type="text" value=""><br><br>
+        <form id="form" align="center" onsubmit="Play(); this.reset(); return false;">
+            <hr> <br>
+                Enter a word: <input id="word_entered" type="text" value="" autofocus="autofocus"><br><br>
             <hr>
         </form>
 
-        <h3 align="center"><br>LETTERS:</h3>
+        <div data-role="main" class="ui-content" style="background-color: #190000;">
+            <label for="difficulty" style="color: #efe7d0;">Difficulty:</label>
+            <input type="range" name="difficulty" id="difficulty" value="3" min="1" max="5" onchange="showLevel();">
+            <label id="difficulty-label" style="color: #efe7d0;">3</label>
+        </div>
 
-        <p id="middle" style="font-size:32px">&emsp;</p>
+		<div class="remaining">
+        <span align="center">Remaining Letters:</span>
+		<span id="remainingLetters"></span>
+		</div>
+		
+		<div class="wordList">
+			<p id="man_score" class="score">You: 0</p>
+			<p id="manWords"></p>
+		</div>
 
-        <p>Remaining Letters: </p>
+        <div id="middle" style="font-size:32px"></div>
 
-        <p id="remainingLetters">141</p>
+		<div class="wordList">
+			<p id="comp_score" class="score">Computer: 0</p>
+			<p id="compWords"></p>
+		</div>
 
-        <table style="width:50%" align="center">
-            <tr>
-                <th>Player</th>
-                <th>Computer</th> 
-            </tr>
-            <tr>
-                <td id="man_score">You: 0</td>
-                <td id="comp_score">Computer: 1</td>
-            </tr>
-            <tr>
-                <td id="manWords"></td>
-                <td id="compWords"></td>
-            </tr>
-        </table>
-    
         <script src="PreliminaryFunctions.js"></script>
+        <script src="AnagramFunctions.js"></script>
+        <script src="CompMoves.js"></script>
+        
+        <script src="Wordlist.js"></script>
+        <script src="Dictionary.js"></script>
 
+        <script src="CompWordList.js"></script>
+        <script src="CompDictionary.js"></script>
+        
+        <script src="PreDictionary.js"></script>
+    
         <script>
-            var i = 0;
-            var remainingLetters = 141
-            document.getElementById("middle").innerHTML = formatMiddle(['a','b','c','d']);
-            document.getElementById("manWords").innerHTML = formatWordList([]);
-            document.getElementById("compWords").innerHTML = formatWordList(['car']);
-            document.getElementById("man_score").innerHTML = 'You: 0';
-            document.getElementById("comp_score").innerHTML = 'Computer: 1';
-            function begin_animation() {
-                setInterval(addToBox, 500);
-            }
-            function addToBox() {
-                if (i==0) {
-                    document.getElementById("middle").innerHTML = formatMiddle([]);
-                    document.getElementById("manWords").innerHTML = formatWordList([]);
-                    document.getElementById("compWords").innerHTML = formatWordList(['car']);
-                    middle = [];
-                    remainingLetters = 141
-                    document.getElementById("remainingLetters").innerHTML = remainingLetters;
-                    document.getElementById("man_score").innerHTML = 'You: 0';
-                    document.getElementById("comp_score").innerHTML = 'Computer: 1';
-                }
-                i++;
-                if (2<i && i<6) {
-                    middle.push(['a','b','c'][i-3]);
-                    document.getElementById("middle").innerHTML = formatMiddle(middle);
-                    document.getElementById("remainingLetters").innerHTML = remainingLetters--;
-                }
-                if (6<i && i<10) {
-                    document.getElementById("word_entered").value += ['c','a','b'][i-7];
-                } else if (i==10) {
-                    document.getElementById("word_entered").value = '';
-                    document.getElementById("middle").innerHTML = formatMiddle([]);
-                    document.getElementById("manWords").innerHTML = formatWordList(['cab']);
-                    document.getElementById("man_score").innerHTML = 'You: 1';
-                }
-                if (i == 13) {
-                   document.getElementById("middle").innerHTML = formatMiddle(['d']);
-                }
-                if (13<i && i<18) {
-                    document.getElementById("word_entered").value += ['c','a','r','d'][i-14];
-                }
-                if (17<i) {
-                    document.getElementById("word_entered").value = '';
-                    document.getElementById("middle").innerHTML = formatMiddle([]);
-                    document.getElementById("manWords").innerHTML = formatWordList(['cab', 'card']);
-                    document.getElementById("compWords").innerHTML = formatWordList([]);
-                    document.getElementById("man_score").innerHTML = 'You: 3';
-                    document.getElementById("comp_score").innerHTML = 'Computer: 0';
-                }
-                if (i==21) {
-                    i = 0;
+    
+            var letter_list = ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'f', 'f', 'f', 'g', 'g', 'g', 'g', 'h', 'h', 'h', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'j', 'j', 'k', 'k', 'l', 'l', 'l', 'l', 'l', 'm', 'm', 'm', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'p', 'p', 'p', 'q', 'q', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 's', 's', 's', 's', 's', 's', 't', 't', 't', 't', 't', 't', 't', 't', 't', 'u', 'u', 'u', 'u', 'u', 'u', 'v', 'v', 'v', 'w', 'w', 'w', 'x', 'x', 'y', 'y', 'y', 'z', 'z'];
+            shuffle(letter_list);
+
+            var d = 1.4 //Difficulty -- but actually more like easiness, where a higher number slows down the computer
+
+            var comp_score = 0;
+            var man_score = 0;
+
+            var middle = [];
+            var manWords = [];
+            var compWords = [];
+
+            var timeMidPre = setInterval(checkMiddlePre, 1000);
+            var timeMidLong = setInterval(checkMiddleLong, 4000);
+
+            var timeStealPre = setInterval(compStealPre, 3000);
+            function compStealPre() {
+                if (Steal('x', manWords, 'C', 20, preDictionary) === true) {
+                    // alert("Stole word using pre!")
+                } else if (Steal('x', compWords, 'C', 20, preDictionary) === true) {
+                    // alert("Stole word using pre!")
                 }
             }
-            // ANIMATION HERE
+
+            var timeStealShort = setInterval(compStealShort, 65000);
+            function compStealShort() {
+                if (Steal('x', manWords, 'C', 5, compDict) === false) {
+                    Steal('x', compWords, 'C', 5, compDict);
+                }
+            }
+
+            var timeStealLong = setInterval(compStealLong, 200000);
+            function compStealLong() {
+                if (Steal('x', manWords, 'C', 14, compDict) === false) {
+                    Steal('x', compWords, 'C', 14, compDict);
+                }
+            }
+    
         </script>
     
     </body>
