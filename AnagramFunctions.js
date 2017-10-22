@@ -211,9 +211,39 @@ function Play(){
 
 }
 
+function getRandomIntInclusive(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
 function update() {
-    document.getElementById("middle").innerHTML = formatMiddle(middle);
-    document.getElementById("compWords").innerHTML = formatWordList(compWords);
-    document.getElementById("manWords").innerHTML = formatWordList(manWords);
+    document.getElementById("middle").innerHTML = "";
+	for (var i=0; i<middle.length; i++) {
+		var tile = document.createElement("div");
+		tile.className = "tile";
+		var letter = document.createTextNode(middle[i]);
+		tile.appendChild(letter);
+		tile.style.transform = "rotate("+getRandomIntInclusive(-5, 5)+"deg)";
+		document.getElementById("middle").appendChild(tile);
+	}
+	
+	document.getElementById("manWords").innerHTML = "";
+	for (var i=0; i<manWords.length; i++) {
+		var tile = document.createElement("div");
+		tile.className = "word";
+		var letter = document.createTextNode(manWords[i]);
+		tile.appendChild(letter);
+		document.getElementById("manWords").appendChild(tile);
+	}
+	
+	document.getElementById("compWords").innerHTML = "";
+	for (var i=0; i<compWords.length; i++) {
+		var tile = document.createElement("div");
+		tile.className = "word";
+		var letter = document.createTextNode(compWords[i]);
+		tile.appendChild(letter);
+		document.getElementById("compWords").appendChild(tile);
+	}
     Score();
 }
